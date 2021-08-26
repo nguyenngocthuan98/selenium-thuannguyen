@@ -2,82 +2,110 @@ package tests;
 
 import helpers.Constants;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import page_objects.BasePage;
 import page_objects.LoginPage;
 
 public class LoginTests extends BaseTests {
     private final LoginPage loginPage = new LoginPage();
-    private final BasePage basePage = new BasePage();
 
-    private final String generalLoginErrorMsg = loginPage.generalLoginErrorMsg();
-    private final String emailErrorMsg = loginPage.errorEmailMsg();
-    private final String passwordErrorMsg = loginPage.errorPasswordMsg();
-
+    String generalLoginErrorMsg;
+    String emailErrorMsg;
+    String passwordErrorMsg;
+    String wrong_email_format = "test@railway.";
+    String not_exist_email = "testnotexist@railway.co";
+    String wrong_password = "this is wrong password";
     String expectedAllFieldSpecifyMsg = "There was a problem with your login and/or errors exist in your form.";
     String expectedInvalidDataMsg = "Invalid email or password. Please try again.";
     String expectedEmailSpecifyMsg = "You must specify a email.";
     String expectedEmailFormMsg = "Invalid email form.";
     String expectedPasswordSpecifyMsg = "You must specify a password.";
 
+    @BeforeMethod
+    public void beforeLoginTests() {
+        loginPage.goToLoginPage();
+    }
+
     @Test(testName = "User can login with valid account")
     public void loginTest() {
-        basePage.goToLoginPage();
         loginPage.login(Constants.EMAIL, Constants.PASSWORD);
 
-        Assert.assertEquals("Welcome " + Constants.EMAIL, basePage.getGreeting(), "Login fail");
+        Assert.assertEquals("Welcome " + Constants.EMAIL, loginPage.getGreeting(),
+                "Greeting doesn't display as expected");
     }
 
     @Test(testName = "Error message displays when user login with blank fields data")
     public void blankAllFieldTest() {
-        basePage.goToLoginPage();
         loginPage.login("", "");
 
-        Assert.assertEquals(expectedAllFieldSpecifyMsg, generalLoginErrorMsg, "generalLoginErrorMsg doesn't display as expected");
-        Assert.assertEquals(expectedEmailSpecifyMsg, emailErrorMsg, "emailErrorMsg doesn't display as expected");
-        Assert.assertEquals(expectedPasswordSpecifyMsg, passwordErrorMsg, "passwordErrorMsg doesn't display as expected");
-    }
+        generalLoginErrorMsg = loginPage.getTopErrorMessage();
+        emailErrorMsg = loginPage.getEmailErrorMessage();
+        passwordErrorMsg = loginPage.getPasswordErrorMessage();
 
-    @Test(testName = "Error message displays when user login with blank email field")
-    public void blankEmailFieldTest() {
-        basePage.goToLoginPage();
-        loginPage.login("", Constants.PASSWORD);
-
-        Assert.assertEquals(expectedAllFieldSpecifyMsg, generalLoginErrorMsg, "generalLoginErrorMsg doesn't display as expected");
-        Assert.assertEquals(expectedEmailSpecifyMsg, emailErrorMsg, "emailErrorMsg doesn't display as expected");
+        Assert.assertEquals(expectedAllFieldSpecifyMsg, generalLoginErrorMsg,
+                "Error message at the top of form doesn't display as expected");
+        Assert.assertEquals(expectedEmailSpecifyMsg, emailErrorMsg,
+                "Error message next to Email field doesn't display as expected");
+        Assert.assertEquals(expectedPasswordSpecifyMsg, passwordErrorMsg,
+                "Error message next to Password field doesn't display as expected");
     }
 
     @Test(testName = "Error message displays when user login with incorrect email format")
     public void incorrectEmailFormatTest() {
-        basePage.goToLoginPage();
-        loginPage.login(loginPage.WRONG_EMAIL_FORMAT, Constants.PASSWORD);
+        loginPage.login(wrong_email_format, Constants.PASSWORD);
 
-        Assert.assertEquals(expectedInvalidDataMsg, generalLoginErrorMsg, "generalLoginErrorMsg doesn't display as expected");
-        Assert.assertEquals(expectedEmailFormMsg, emailErrorMsg, "emailErrorMsg doesn't display as expected");
+        generalLoginErrorMsg = loginPage.getTopErrorMessage();
+        emailErrorMsg = loginPage.getEmailErrorMessage();
+
+        Assert.assertEquals(expectedInvalidDataMsg, generalLoginErrorMsg,
+                "Error message at the top of form doesn't display as expected");
+        Assert.assertEquals(expectedEmailFormMsg, emailErrorMsg,
+                "Error message next to Email field doesn't display as expected");
     }
 
     @Test(testName = "Error message displays when user login with NOT existing email")
     public void notExistEmailTest() {
-        basePage.goToLoginPage();
-        loginPage.login(loginPage.NOT_EXIST_EMAIL, Constants.PASSWORD);
+        loginPage.login(not_exist_email, Constants.PASSWORD);
 
-        Assert.assertEquals(expectedInvalidDataMsg, generalLoginErrorMsg, "generalLoginErrorMsg doesn't display as expected");
+        generalLoginErrorMsg = loginPage.getTopErrorMessage();
+
+        Assert.assertEquals(expectedInvalidDataMsg, generalLoginErrorMsg,
+                "Error message at the top of form doesn't display as expected");
     }
 
     @Test(testName = "Error message displays when user login with wrong password")
     public void wrongPasswordTest() {
-        basePage.goToLoginPage();
-        loginPage.login(Constants.EMAIL, loginPage.WRONG_PASSWORD);
+        loginPage.login(Constants.EMAIL, wrong_password);
 
-        Assert.assertEquals(expectedInvalidDataMsg, generalLoginErrorMsg, "generalLoginErrorMsg doesn't display as expected");
+        generalLoginErrorMsg = loginPage.getTopErrorMessage();
+
+        Assert.assertEquals(expectedInvalidDataMsg, generalLoginErrorMsg,
+                "Error message at the top of form doesn't display as expected");
     }
 
-    @Test(testName = "Error message displays when user login with blank password field data")
+    @Test(testName = "Error message displays when user login with blank password field")
     public void blankPasswordTest() {
-        basePage.goToLoginPage();
         loginPage.login(Constants.EMAIL, "");
 
-        Assert.assertEquals(expectedAllFieldSpecifyMsg, generalLoginErrorMsg, "generalLoginErrorMsg doesn't display as expected");
-        Assert.assertEquals(expectedPasswordSpecifyMsg, emailErrorMsg, "emailErrorMsg doesn't display as expected");
+        generalLoginErrorMsg = loginPage.getTopErrorMessage();
+        passwordErrorMsg = loginPage.getPasswordErrorMessage();
+
+        Assert.assertEquals(expectedAllFieldSpecifyMsg, generalLoginErrorMsg,
+                "Error message at the top of form doesn't display as expected");
+        Assert.assertEquals(expectedPasswordSpecifyMsg, passwordErrorMsg,
+                "Error message next to Password field doesn't display as expected");
+    }
+
+    @Test(testName = "Error message displays when user login with blank email field")
+    public void blankEmailFieldTest() {
+        loginPage.login("", Constants.PASSWORD);
+
+        generalLoginErrorMsg = loginPage.getTopErrorMessage();
+        emailErrorMsg = loginPage.getEmailErrorMessage();
+
+        Assert.assertEquals(expectedAllFieldSpecifyMsg, generalLoginErrorMsg,
+                "Error message at the top of form doesn't display as expected");
+        Assert.assertEquals(expectedEmailSpecifyMsg, emailErrorMsg,
+                "Error message next to Email field doesn't display as expected");
     }
 }

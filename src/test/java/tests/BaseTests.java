@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeMethod;
 public class BaseTests {
     @BeforeMethod
     public void beforeMethod() {
-        System.setProperty(Constants.TYPE_DRIVER, Constants.CHROME_DRIVER_LOCATIONS);
+        System.setProperty(Constants.CHROME_DRIVER, Constants.CHROME_DRIVER_LOCATIONS);
         Constants.WEBDRIVER = new ChromeDriver();
         Constants.WEBDRIVER.get(Constants.BASE_URL);
     }
