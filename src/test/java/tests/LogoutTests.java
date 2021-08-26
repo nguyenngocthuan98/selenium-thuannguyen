@@ -10,8 +10,8 @@ public class LogoutTests extends BaseTests {
     private final LoginPage loginPage = new LoginPage();
     private final BasePage basePage = new BasePage();
 
-    @Test
-    public void logout() {
+    @Test(testName = "User can logout successfully")
+    public void logoutTest() {
         basePage.goToLoginPage();
         loginPage.login(Constants.EMAIL, Constants.PASSWORD);
         basePage.logout();
