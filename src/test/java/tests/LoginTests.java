@@ -27,7 +27,7 @@ public class LoginTests extends BaseTests {
     }
 
     @Test(testName = "User can login with valid account")
-    public void loginTest() {
+    public void tc01_LoginTest() {
         loginPage.login(Constants.EMAIL, Constants.PASSWORD);
 
         Assert.assertEquals("Welcome " + Constants.EMAIL, loginPage.getGreeting(),
@@ -35,7 +35,7 @@ public class LoginTests extends BaseTests {
     }
 
     @Test(testName = "Error message displays when user login with blank fields data")
-    public void blankAllFieldTest() {
+    public void tc02_BlankAllFieldTest() {
         loginPage.login("", "");
 
         generalLoginErrorMsg = loginPage.getTopErrorMessage();
@@ -51,7 +51,7 @@ public class LoginTests extends BaseTests {
     }
 
     @Test(testName = "Error message displays when user login with incorrect email format")
-    public void incorrectEmailFormatTest() {
+    public void tc03_IncorrectEmailFormatTest() {
         loginPage.login(wrong_email_format, Constants.PASSWORD);
 
         generalLoginErrorMsg = loginPage.getTopErrorMessage();
@@ -64,7 +64,7 @@ public class LoginTests extends BaseTests {
     }
 
     @Test(testName = "Error message displays when user login with NOT existing email")
-    public void notExistEmailTest() {
+    public void tc04_NotExistEmailTest() {
         loginPage.login(not_exist_email, Constants.PASSWORD);
 
         generalLoginErrorMsg = loginPage.getTopErrorMessage();
@@ -74,7 +74,7 @@ public class LoginTests extends BaseTests {
     }
 
     @Test(testName = "Error message displays when user login with wrong password")
-    public void wrongPasswordTest() {
+    public void tc05_WrongPasswordTest() {
         loginPage.login(Constants.EMAIL, wrong_password);
 
         generalLoginErrorMsg = loginPage.getTopErrorMessage();
@@ -84,7 +84,7 @@ public class LoginTests extends BaseTests {
     }
 
     @Test(testName = "Error message displays when user login with blank password field")
-    public void blankPasswordTest() {
+    public void tc06_BlankPasswordTest() {
         loginPage.login(Constants.EMAIL, "");
 
         generalLoginErrorMsg = loginPage.getTopErrorMessage();
@@ -97,7 +97,7 @@ public class LoginTests extends BaseTests {
     }
 
     @Test(testName = "Error message displays when user login with blank email field")
-    public void blankEmailFieldTest() {
+    public void tc07_BlankEmailFieldTest() {
         loginPage.login("", Constants.PASSWORD);
 
         generalLoginErrorMsg = loginPage.getTopErrorMessage();

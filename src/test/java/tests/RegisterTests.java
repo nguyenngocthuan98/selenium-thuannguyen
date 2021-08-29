@@ -13,7 +13,7 @@ public class RegisterTests extends BaseTests {
     private final String pid = DataHelper.getRandomNumber();
 
     @Test(testName = "User can create new account with valid data")
-    public void registerTest() {
+    public void tc01_RegisterTest() {
         registerPage.goToRegisterPage();
         registerPage.register(email, password, password, pid);
 
