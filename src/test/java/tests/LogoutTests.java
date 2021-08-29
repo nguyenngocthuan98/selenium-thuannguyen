@@ -11,11 +11,12 @@ public class LogoutTests extends BaseTests {
     private final BasePage basePage = new BasePage();
 
     @Test(testName = "User can logout successfully")
-    public void logoutTest() {
+    public void tc01_LogoutTest() {
         basePage.goToLoginPage();
         loginPage.login(Constants.EMAIL, Constants.PASSWORD);
         basePage.logout();
 
-        Assert.assertEquals("Welcome guest!", basePage.getGreeting(), "Login fail");
+        Assert.assertEquals("Welcome guest!", basePage.getGreeting(),
+                "The greeting doesn't display as expected");
     }
 }

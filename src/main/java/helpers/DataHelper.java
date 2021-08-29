@@ -2,6 +2,8 @@ package helpers;
 
 import com.github.javafaker.Faker;
 
+import java.util.Date;
+
 public class DataHelper {
     private static final Faker faker = new Faker();
 
@@ -17,4 +19,7 @@ public class DataHelper {
         return faker.numerify("########");
     }
 
+    public static Date getCurrentDate(){
+        return new Date();
+    }
 }
