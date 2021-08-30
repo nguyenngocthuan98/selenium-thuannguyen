@@ -10,6 +10,8 @@ import page_objects.BookTicketPage;
 import page_objects.LoginPage;
 import page_objects.RegisterPage;
 
+import java.text.ParseException;
+
 public class BookTicketTests extends BaseTests {
     private final RegisterPage registerPage = new RegisterPage();
     private final LoginPage loginPage = new LoginPage();
@@ -30,15 +32,14 @@ public class BookTicketTests extends BaseTests {
     }
 
     @Test(testName = "User can book ticket successfully")
-    public void tc01_BookTicketTest() {
-        int indexOfDepartDay = 3;
+    public void tc01_BookTicketTest() throws Exception {
         String departFrom = "Sài Gòn";
         String arriveAt = "Huế";
         String seatType = "Soft bed";
         String ticketAmount = "1";
 
-        String departDate = ElementHelper.departDay(indexOfDepartDay);
-        String expiredDate = ElementHelper.departDay(indexOfDepartDay - 1);
+        String departDate = ElementHelper.departDay(3);
+        String expiredDate = ElementHelper.expiredDay(departDate);
         String bookDate = ElementHelper.formatDate().format(DataHelper.getCurrentDate());
 
         ticket.setDepartFrom(departFrom);

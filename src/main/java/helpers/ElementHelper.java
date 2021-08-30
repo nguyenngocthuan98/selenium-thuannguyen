@@ -4,6 +4,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,11 +22,34 @@ public class ElementHelper {
         return new SimpleDateFormat("M/d/yyyy");
     }
 
+    /**
+     * Get Depart day by index value of dropdown.
+     * @param indexDay
+     * @return
+     */
     public static String departDay(int indexDay) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(DataHelper.getCurrentDate());
 
         calendar.add(Calendar.DATE, 3 + indexDay);
+
+        return formatDate().format(calendar.getTime());
+    }
+
+    /**
+     * Get Expired day by Depart day of ticket.
+     * Convert Depart day value from String type to Date type, using calendar -1 day and then convert to String again.
+     * @param departDay
+     * @return
+     * @throws ParseException
+     */
+    public static String expiredDay(String departDay) throws ParseException {
+        Date expiredDay = formatDate().parse(departDay);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(expiredDay);
+
+        calendar.add(Calendar.DATE, -1);
 
         return formatDate().format(calendar.getTime());
     }
